@@ -81,47 +81,58 @@ const filters = ['All', 'Web App', 'Full Stack', 'Website', 'Tools'];
 
 const Portfolio = () => {
   const [activeFilter, setActiveFilter] = useState('All');
+  // Track which project is tapped on mobile
+  const [tappedId, setTappedId] = useState(null);
 
   const filteredProjects = activeFilter === 'All'
     ? projects
     : projects.filter(project => project.category === activeFilter);
 
-  return (
-    <section className="bg-[#E3E3E1] text-[#1a1a1a] py-24 min-h-screen w-[98.5vw] relative overflow-hidden font-['Oswald']">
+  const handleProjectClick = (id) => {
+    // If user taps the same project again, hide overlay
+    // If they tap a new project, show that overlay
+    setTappedId(tappedId === id ? null : id);
+  };
 
-      {/* Background Decorative Text (Matches History Section) */}
-      <div className="absolute top-20 text-center w-full overflow-hidden pointer-events-none opacity-[0.04]">
-        <h1 className="text-[15rem] font-bold uppercase whitespace-nowrap leading-none">
+  return (
+    <section className="bg-[#E3E3E1] text-[#1a1a1a] py-16 md:py-24 min-h-screen w-[98.9vw] relative overflow-x-hidden font-['Oswald']">
+
+      {/* Background Decorative Text */}
+      <div className="absolute top-10 md:top-20 text-center w-full overflow-hidden pointer-events-none opacity-[0.04] select-none">
+        <h1 className="text-[6rem] md:text-[15rem] font-bold uppercase whitespace-nowrap leading-none">
           PORTFOLIO
         </h1>
       </div>
 
-      <div className="container mx-auto px-6 lg:px-12 max-w-7xl relative z-10">
+      <div className="container mx-auto px-4 md:px-12 max-w-7xl relative z-10">
 
-        {/* Header Section (Synced with About Header) */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-20 gap-8">
           <div className="space-y-4">
-            <div className="flex items-center border w-fit px-4 py-2 text-white rounded-full bg-black gap-3">
+            <div className="flex items-center border w-fit px-4 py-1.5 text-white rounded-full bg-black gap-3 shadow-lg">
               <div className="relative flex h-2 w-2">
-                <span className="animate-ping absolute h-full w-full rounded-full bg-[#e3e3e1] "></span>
-                <div className="rounded-full h-2 w-2 bg-[#e3e3e1]"></div>
+                <span className="animate-ping absolute h-full w-full rounded-full bg-white opacity-50"></span>
+                <div className="rounded-full h-2 w-2 bg-white"></div>
               </div>
-              <span className="text-[10px] font-bold tracking-widest uppercase">My Showcase</span>
+              <span className="text-[9px] md:text-[10px] font-bold tracking-widest uppercase">My Showcase</span>
             </div>
-            <h2 className="font-bold text-5xl lg:text-8xl uppercase leading-[0.85]">
+            <h2 className="font-bold text-5xl lg:text-8xl uppercase leading-[0.9] tracking-tighter">
               FEATURED <br /> <span className="text-gray-400">CREATIONS</span>
             </h2>
           </div>
 
-          {/* Custom Filter Pills */}
-          <div className="flex flex-wrap gap-3">
+          {/* Filter Pills */}
+          <div className="flex flex-wrap gap-2 w-full md:w-auto">
             {filters.map((filter) => (
               <button
                 key={filter}
-                onClick={() => setActiveFilter(filter)}
-                className={`px-6 py-2 rounded-full border text-[11px] font-bold uppercase tracking-widest transition-all duration-300
+                onClick={() => {
+                  setActiveFilter(filter);
+                  setTappedId(null); // Reset mobile tap state on filter change
+                }}
+                className={`px-5 py-2 md:px-6 md:py-2 rounded-full border text-[10px] md:text-[11px] font-bold uppercase tracking-widest transition-all duration-300 whitespace-nowrap
                   ${activeFilter === filter
-                    ? 'bg-black text-white border-black'
+                    ? 'bg-black text-white border-black shadow-md'
                     : 'border-gray-400/30 text-gray-500 hover:border-black hover:text-black'}
                 `}
               >
@@ -132,69 +143,87 @@ const Portfolio = () => {
         </div>
 
         {/* Portfolio Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
           <AnimatePresence mode='popLayout'>
-            {filteredProjects.map((project) => (
-              <motion.div
-                layout
-                key={project.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.5, ease: "circOut" }}
-                className="group relative"
-              >
-                {/* Image Container with Custom Border logic */}
-                <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-white shadow-sm border border-transparent group-hover:border-green-500/50 transition-colors duration-500">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
-                  />
+            {filteredProjects.map((project, index) => {
+              const isTapped = tappedId === project.id;
 
-                  {/* Modern Overlay */}
-                  <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all duration-500 backdrop-blur-[2px] flex flex-col justify-end p-8">
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="space-y-1">
-                        <span className="text-green-500 text-[10px] font-bold tracking-[0.3em] uppercase block transform -translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500">
-                          {project.category}
-                        </span>
-                        <h3 className="text-2xl font-bold text-white uppercase transform -translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 delay-100">
-                          {project.title}
-                        </h3>
-                      </div>
-                      <div className="flex gap-2">
-                        <a
-                          href={project.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-3 bg-white/10 rounded-full hover:bg-green-500 transition-colors text-white"
-                        >
-                          <ExternalLink size={18} />
-                        </a>
-                      </div>
-                    </div>
+              return (
+                <motion.div
+                  layout
+                  key={project.id}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.4, ease: "circOut" }}
+                  className="group relative cursor-pointer"
+                  onClick={() => handleProjectClick(project.id)}
+                >
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-white shadow-md border border-transparent group-hover:border-green-500/50 transition-colors duration-500">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className={`w-full h-full object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0 
+                        ${isTapped ? 'grayscale-0 scale-105' : ''}`}
+                    />
 
-                    {/* Tech Tags */}
-                    <div className="pt-4 border-t border-white/10 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
-                      <span className="font-sans text-[11px] text-gray-400 italic">{project.tech}</span>
-                      <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></div>
+                    {/* Overlay - Triggers on group-hover (PC) or isTapped (Mobile) */}
+                    <div className={`absolute inset-0 bg-black/80 transition-all duration-500 backdrop-blur-[2px] flex flex-col justify-end p-6 md:p-8
+                      ${isTapped ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+                      
+                      <div className="flex justify-between items-start mb-4">
+                        <div className="space-y-1">
+                          <span className={`text-green-500 text-[9px] md:text-[10px] font-bold tracking-[0.3em] uppercase block transform transition-all duration-500
+                            ${isTapped ? 'translate-y-0 opacity-100' : '-translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100'}`}>
+                            {project.category}
+                          </span>
+                          <h3 className={`text-xl md:text-2xl font-bold text-white uppercase transform transition-all duration-500 delay-100
+                            ${isTapped ? 'translate-y-0 opacity-100' : '-translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100'}`}>
+                            {project.title}
+                          </h3>
+                        </div>
+                        
+                        <div className="flex gap-2">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation(); // Prevent toggling the overlay off
+                              window.open(project.link, '_blank');
+                            }}
+                            className="p-2.5 md:p-3 bg-white/10 rounded-full hover:bg-green-500 transition-colors text-white"
+                          >
+                            <ExternalLink size={16} />
+                          </button>
+                        </div>
+                      </div>
+
+                      <p className={`text-gray-300 text-xs mb-4 line-clamp-2 font-sans transition-opacity duration-500 delay-150
+                        ${isTapped ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+                          {project.description}
+                      </p>
+
+                      <div className={`pt-4 border-t border-white/10 flex items-center justify-between transition-opacity duration-500 delay-200
+                        ${isTapped ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+                        <span className="font-sans text-[10px] md:text-[11px] text-gray-400 italic">{project.tech}</span>
+                        <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></div>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Visible Info Below (optional, keep clean) */}
-                <div className="mt-4 flex justify-between items-center px-2">
-                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">0{project.id} / Project</span>
-                  <div className="h-[1px] flex-grow mx-4 bg-gray-400/20"></div>
-                  <Search size={14} className="text-gray-400" />
-                </div>
-              </motion.div>
-            ))}
+                  <div className="mt-4 flex justify-between items-center px-1">
+                    <span className="text-[9px] md:text-[10px] font-bold text-gray-400 uppercase tracking-tighter">
+                      {index + 1 < 10 ? `0${index + 1}` : index + 1} / Project
+                    </span>
+                    <div className="h-[1px] flex-grow mx-4 bg-gray-400/20"></div>
+                    <Search size={12} className={isTapped ? "text-green-500" : "text-gray-400"} />
+                  </div>
+                </motion.div>
+              );
+            })}
           </AnimatePresence>
         </div>
-
       </div>
+      
+      <div className="h-24 md:hidden" />
     </section>
   );
 };
