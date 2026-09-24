@@ -4,7 +4,7 @@ import { FaGithub, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import { useState } from 'react';
 
 import { CONTACT_INFO, SOCIAL_LINKS } from '../constants/socials';
-import { personalInfo, stats as aboutStats, skills, experience, education } from '../constants/aboutData';
+import { personalInfo, stats as aboutStats, skills, experience } from '../constants/aboutData';
 
 const Hero = () => {
   const [showAboutModal, setShowAboutModal] = useState(false);
@@ -21,7 +21,7 @@ const Hero = () => {
   };
 
   const stats = [
-    { value: "08+", label: "Months Exp." },
+    { value: "2+", label: "Years Exp." },
     { value: "12", label: "Projects" },
     { value: "99%", label: "Satisfaction" },
   ];
@@ -68,7 +68,7 @@ const Hero = () => {
           <motion.div className="order-1 md:col-span-4 space-y-4 lg:space-y-6 text-center md:text-left" initial="hidden" animate="visible" variants={staggerContainer}>
             <motion.h3 variants={fadeInUp} className="text-lg md:text-xl font-serif text-gray-600 italic">Hey. I'm Zeeshan,</motion.h3>
             <motion.div variants={fadeInUp} className="leading-tight md:leading-none">
-              <h1 className="font-['Oswald'] font-bold text-5xl lg:text-6xl xl:text-7xl text-[#1a1a1a]">A WEB<br className="hidden md:block" /> DEVELOPER</h1>
+              <h1 className="font-['Oswald'] font-bold text-5xl lg:text-6xl xl:text-7xl text-[#1a1a1a]">A WEB<br className="hidden md:block" /> ENGINEER</h1>
             </motion.div>
             <motion.p variants={fadeInUp} className="text-gray-600 max-w-sm mx-auto md:mx-0 text-base lg:text-lg leading-snug">
               Transforming complex ideas into seamless digital realities with clean, scalable code.

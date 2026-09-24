@@ -9,7 +9,7 @@ export const SOCIAL_LINKS = {
 };
 
 export const CONTACT_INFO = {
-    EMAIL: 'mzeeshanmalik130@gmail.com',
+    EMAIL: 'xeeshaan.dev@gmail.com',
     PHONE: '+92 309 0236185',
     PHONE_RAW: '+923090236185',
     ADDRESS: 'Sargodha, Pakistan',

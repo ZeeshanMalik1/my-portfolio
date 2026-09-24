@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Download, GraduationCap, ArrowUpRight } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Download, Eye, X, GraduationCap, ArrowUpRight } from 'lucide-react';
 import { personalInfo, stats, skills, experience, education } from '../constants/aboutData';
 
 // --- Sub-Components ---
@@ -63,7 +63,101 @@ const ResumeItem = ({ time, title, subtitle, description }) => (
     </div>
 );
 
+const CVPreview = ({ isOpen, onClose }) => {
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        const handleEsc = (e) => e.key === 'Escape' && onClose();
+        window.addEventListener('keydown', handleEsc);
+        return () => {
+            document.body.style.overflow = '';
+            window.removeEventListener('keydown', handleEsc);
+        };
+    }, [isOpen, onClose]);
+
+    return (
+        <AnimatePresence>
+            {isOpen && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
+                    onClick={onClose}
+                >
+                    {/* Backdrop */}
+                    <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+
+                    {/* Modal */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                        onClick={(e) => e.stopPropagation()}
+                        className="relative w-full max-w-4xl h-[85vh] md:h-[80vh] bg-[#E3E3E1] rounded-3xl overflow-hidden shadow-2xl flex flex-col font-['Oswald']"
+                    >
+                        {/* Modal Header */}
+                        <div className="flex items-center justify-between px-5 md:px-8 py-4 bg-[#1a1a1a] text-white shrink-0">
+                            <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-1.5">
+                                    <span className="h-2.5 w-2.5 rounded-full bg-[#FF5F57]"></span>
+                                    <span className="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]"></span>
+                                    <span className="h-2.5 w-2.5 rounded-full bg-[#28C840]"></span>
+                                </div>
+                                <div className="h-5 w-px bg-white/20 mx-1 hidden md:block" />
+                                <a
+                                    href="/Zeeshan_Siddique_Resume-1.pdf"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="font-sans text-xs md:text-sm text-gray-300 hover:text-white transition-colors truncate max-w-[160px] md:max-w-none hidden sm:block"
+                                >
+                                    Zeeshan_Siddique_Resume-1.pdf
+                                </a>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                                <a
+                                    href="/Zeeshan_Siddique_Resume-1.pdf"
+                                    download
+                                    className="group flex items-center gap-2 bg-green-500 text-black px-4 md:px-5 py-2 rounded-full text-[10px] md:text-[11px] font-bold uppercase tracking-widest hover:bg-green-400 transition-colors"
+                                >
+                                    <Download size={14} className="transition-transform duration-300 group-hover:translate-y-0.5" />
+                                    Download
+                                </a>
+                                <button
+                                    onClick={onClose}
+                                    className="p-2.5 bg-white/10 rounded-full hover:bg-white/20 transition-colors"
+                                    aria-label="Close preview"
+                                >
+                                    <X size={16} />
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* PDF Preview */}
+                        <div className="flex-1 bg-white overflow-auto p-4 md:p-6">
+                            <iframe
+                                src="/Zeeshan_Siddique_Resume-1.pdf"
+                                title="Resume Preview"
+                                className="w-full h-full rounded-xl border border-gray-200"
+                                allow="fullscreen"
+                            />
+                        </div>
+                    </motion.div>
+                </motion.div>
+            )}
+        </AnimatePresence>
+    );
+};
+
 const About = () => {
+    const [cvPreviewOpen, setCvPreviewOpen] = useState(false);
+
     return (
         <section className="bg-[#E3E3E1] w-[98.9vw] text-[#1a1a1a] py-16 md:py-24 relative overflow-x-hidden font-['Oswald'] selection:bg-black selection:text-white">
             
@@ -91,12 +185,15 @@ const About = () => {
                         </h2>
                     </div>
                     
-                    <button className="group relative bg-[#1a1a1a] text-white px-8 md:px-10 py-4 md:py-5 rounded-full overflow-hidden transition-all hover:shadow-xl w-full md:w-auto h-14 md:h-16 min-w-[200px]">
+                    <button
+                        onClick={() => setCvPreviewOpen(true)}
+                        className="group relative bg-[#1a1a1a] text-white px-8 md:px-10 py-4 md:py-5 rounded-full overflow-hidden transition-all hover:shadow-xl w-full md:w-auto h-14 md:h-16 min-w-[200px] flex items-center justify-center"
+                    >
                         <div className="absolute inset-0 flex items-center justify-center transition-all duration-300 transform -translate-y-[150%] opacity-0 group-hover:translate-y-0 group-hover:opacity-100">
-                            <Download size={24} />
+                            <Eye size={24} />
                         </div>
                         <span className="font-bold tracking-widest uppercase text-xs md:text-sm transition-all duration-300 group-hover:translate-y-[150%] group-hover:opacity-0 block">
-                            Download CV
+                            Preview CV
                         </span>
                     </button>
                 </div>
@@ -180,6 +277,8 @@ const About = () => {
             
             {/* Safe area for mobile navigation if needed */}
             <div className="h-10 md:hidden" />
+
+            <CVPreview isOpen={cvPreviewOpen} onClose={() => setCvPreviewOpen(false)} />
         </section>
     );
 };

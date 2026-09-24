@@ -18,24 +18,27 @@ function Navigation({ activeSection, setActiveSection }) {
   useEffect(() => {
     const isDesktop = window.innerWidth >= 768;
 
-    // DESKTOP AUTO-HIDE (Unchanged)
+    // DESKTOP AUTO-HIDE
     if (!isHovered && isDesktop) {
       const timer = setTimeout(() => {
         setIsVisible(false);
       }, 3000);
       return () => clearTimeout(timer);
-    } else {
-      setIsVisible(true);
     }
 
-    // MOBILE AUTO-HIDE (New Logic)
-    if (!isDesktop) {
-      const mobileTimer = setTimeout(() => {
-        setIsMobileHidden(true);
-      }, 4000); // Hides after 4 seconds of inactivity
-      return () => clearTimeout(mobileTimer);
+    // On hover or section change, reveal the nav (deferred so state updates
+    // happen outside the effect body).
+    if (isDesktop) {
+      const showTimer = setTimeout(() => setIsVisible(true), 0);
+      return () => clearTimeout(showTimer);
     }
-  }, [isHovered, activeSection]); // Reset timer when user changes section
+
+    // MOBILE AUTO-HIDE: hides after 4 seconds of inactivity
+    const mobileTimer = setTimeout(() => {
+      setIsMobileHidden(true);
+    }, 4000);
+    return () => clearTimeout(mobileTimer);
+  }, [isHovered, activeSection]);
 
   const navVariants = {
     hidden: {

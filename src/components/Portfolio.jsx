@@ -5,75 +5,73 @@ import { ExternalLink, Search } from 'lucide-react';
 const projects = [
   {
     id: 1,
-    title: 'Man-O-Man',
+    title: 'Swift Route UAE',
     category: 'Web App',
     tech: 'React • Node.js',
-    description: 'The Clothing Brand Fashion you deserve.',
-    link: 'https://github.com/ZeeshanMalik1/Man-O-Man',
-    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=600&auto=format&fit=crop'
+    description: 'Rental trucks web for a Dubai client.',
+    link: 'https://swiftrouteuae.com/',
+    image: '/portfolio-1.png',
+    isActive: true,
   },
   {
     id: 2,
-    title: 'School Mgmt System',
-    category: 'Full Stack',
+    title: 'KYY',
+    category: 'Web App',
     tech: 'MERN Stack',
-    description: 'Comprehensive school management solution.',
-    link: 'https://github.com/ZeeshanMalik1/school-mangemet-system',
-    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=600&auto=format&fit=crop'
+    description: 'Social media app.',
+    link: 'https://kyy-social.vercel.app/',
+    image: '/portfolio-2.png',
+    isActive: true,
   },
   {
     id: 3,
-    title: 'UOS Merit Check',
-    category: 'Tools',
-    tech: 'CSS • JavaScript',
-    description: 'Merit calculation tool for UOS students.',
-    link: 'https://github.com/ZeeshanMalik1/uos-merit-check',
-    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop'
+    title: 'My Academy',
+    category: 'Web App',
+    tech: 'MERN Stack',
+    description: 'The whole academy ever imagined.',
+    link: 'https://my-acadamy.vercel.app/',
+    image: '/portfolio-3.png',
+    isActive: true,
   },
   {
     id: 4,
-    title: 'SIHS Portal',
+    title: 'Sex Education App',
     category: 'Web App',
-    tech: 'JavaScript • Firebase',
-    description: 'Student portal for SIHS institute.',
-    link: 'https://github.com/ZeeshanMalik1/sihs-new-1',
-    image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=600&auto=format&fit=crop'
+    tech: 'React • Firebase',
+    description: 'Sex education mobile-ready app.',
+    link: 'https://sex-edu-seven.vercel.app/',
+    image: '/portfolio-4.png',
+    isActive: true,
   },
   {
     id: 5,
-    title: 'My Portfolio',
-    category: 'Web App',
-    tech: 'React • Framer Motion',
-    description: 'Personal portfolio showcasing my work.',
-    link: 'https://github.com/ZeeshanMalik1/my_portfolio',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=600&auto=format&fit=crop'
+    title: 'Own Framework.js',
+    category: 'Tools',
+    tech: 'Next.js Extended',
+    description: 'My own Next.js extended framework.',
+    link: 'https://github.com/',
+    image: '/portfolio-5.png',
+    isActive: false,
   },
   {
     id: 6,
-    title: 'Medical College',
-    category: 'Website',
-    tech: 'HTML • CSS • JS',
-    description: 'Informational website for Sargodha Medical College.',
-    link: 'https://github.com/ZeeshanMalik1/sargodha-medical-collage',
-    image: 'https://images.unsplash.com/photo-1519494026892-80ba456f30f0?q=80&w=600&auto=format&fit=crop'
+    title: 'CRM',
+    category: 'Full Stack',
+    tech: 'MERN Stack',
+    description: 'Automate work beyond your thoughts.',
+    link: 'https://github.com/',
+    image: '/portfolio-6.png',
+    isActive: false,
   },
   {
     id: 7,
-    title: 'Harvard Clone',
+    title: 'Oeed Technologies',
     category: 'Website',
-    tech: 'Frontend',
-    description: 'Replica of the Harvard University website.',
-    link: 'https://github.com/ZeeshanMalik1/harvard',
-    image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=600&auto=format&fit=crop'
-  },
-  {
-    id: 8,
-    title: 'Usman\'s Gallery',
-    category: 'Website',
-    tech: 'Grid Layout',
-    description: 'A curated photo gallery display.',
-    link: 'https://github.com/ZeeshanMalik1/usman-s-gallery',
-    image: 'https://images.unsplash.com/photo-1500051638674-ff996a0ec29e?q=80&w=600&auto=format&fit=crop'
+    tech: 'React • Tailwind',
+    description: 'Website for my own company.',
+    link: 'https://oeed.vercel.app/',
+    image: '/portfolio-7.png',
+    isActive: true,
   },
 ];
 
@@ -85,8 +83,8 @@ const Portfolio = () => {
   const [tappedId, setTappedId] = useState(null);
 
   const filteredProjects = activeFilter === 'All'
-    ? projects
-    : projects.filter(project => project.category === activeFilter);
+    ? projects.filter(project => project.isActive !== false)
+    : projects.filter(project => project.category === activeFilter && project.isActive !== false);
 
   const handleProjectClick = (id) => {
     // If user taps the same project again, hide overlay

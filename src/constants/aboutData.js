@@ -6,17 +6,17 @@ import { CONTACT_INFO } from './socials';
 export const personalInfo = [
     { label: 'First Name', value: 'Zeeshan' },
     { label: 'Last Name', value: 'Siddique' },
-    { label: 'Age', value: '20 Years' },
+    { label: 'Age', value: '21 Years' },
     { label: 'Nationality', value: 'Pakistani' },
     { label: 'Freelance', value: 'Available', isGreen: true },
     { label: 'Address', value: CONTACT_INFO.ADDRESS },
     { label: 'Phone', value: CONTACT_INFO.PHONE },
     { label: 'Email', value: CONTACT_INFO.EMAIL },
-    { label: 'Languages', value: 'Urdu, English' },
+    { label: 'Languages', value: 'English , Urdu' },
 ];
 
 export const stats = [
-    { number: "08", suffix: "+", text: "Months Experience" },
+    { number: "2", suffix: "+", text: "Years Experience" },
     { number: "12", suffix: "", text: "Projects Completed" },
     { number: "99", suffix: "%", text: "Client Satisfaction" },
     { number: "24", suffix: "/7", text: "Support Availability" }
@@ -37,15 +37,15 @@ export const skills = [
 
 export const experience = [
     {
-        time: "2024 - Present",
-        title: "Full Stack Developer",
+        time: "2025 - Present",
+        title: "Full Stack Web Engineer",
         subtitle: "Freelance",
         description: "Developing high-performance web applications using the MERN stack and Next.js for various international clients."
     },
     {
-        time: "2023 - 2024",
-        title: "Frontend Intern",
-        subtitle: "Tech Solutions",
+        time: "2024 - 2025",
+        title: "Frontend Developer",
+        subtitle: "Switch2itech",
         description: "Worked on UI/UX components and optimized web performance using React and Tailwind CSS."
     }
 ];
