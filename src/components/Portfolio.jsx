@@ -41,7 +41,7 @@ const projects = [
     description: 'Sex education mobile-ready app.',
     link: 'https://sex-edu-seven.vercel.app/',
     image: '/portfolio-4.png',
-    isActive: true,
+    isActive: false,
   },
   {
     id: 5,
